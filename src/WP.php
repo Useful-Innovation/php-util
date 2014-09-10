@@ -2,7 +2,7 @@
 
 namespace GoBrave\Util;
 
-class WP
+class WP implements IWP
 {
   public function __call($function, $args) {
     if($this->exists($function)) {
