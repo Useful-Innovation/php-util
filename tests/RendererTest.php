@@ -40,6 +40,21 @@ class RendererTest extends PHPUnit_Framework_Testcase
     $this->assertSame($html, '<h1>Template in sub dir</h1>' . PHP_EOL);
   }
 
+  public function testWithConfig() {
+    R::config(['templates_path' => __DIR__ . '/data', 'type' => 'json']);
+    $r = new R();
+    $json = $r->render('template', ['key' => 0]);
+    $this->assertSame($json, '{' . PHP_EOL . '  "key" : 0 ' . PHP_EOL . '}' . PHP_EOL);
+
+    $r->setType('html');
+    $html = $r->render('template');
+    $this->assertSame($html, '<h1>Template</h1>' . PHP_EOL);
+
+    $r->setTemplatesPath(__DIR__ . '/data/sub');
+    $html = $r->render('template_in_sub_dir');
+    $this->assertSame($html, '<h1>Template in sub dir</h1>' . PHP_EOL);
+  }
+
   /**
    * @expectedException \GoBrave\Util\RendererException
    */

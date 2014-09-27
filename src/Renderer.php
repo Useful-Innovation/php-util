@@ -4,12 +4,20 @@ namespace GoBrave\Util;
 
 class Renderer
 {
-  private $base_dir;
+  private static $s_templates_path;
+  private static $s_type = 'html';
+
+  private $templates_path;
   private $type;
 
-  public function __construct($base_dir, $type = 'html') {
-    $this->base_dir = $base_dir;
-    $this->type = $type;
+  public static function config($config) {
+    self::$s_templates_path = isset($config['templates_path']) ? $config['templates_path'] : null;
+    self::$s_type           = isset($config['type']) ? $config['type'] : null;
+  }
+
+  public function __construct($templates_path = null, $type = null) {
+    $this->templates_path = $templates_path ?: self::$s_templates_path;
+    $this->type           = $type           ?: self::$s_type;
   }
 
   public function render($template, $vars = [], $type = null) {
@@ -18,6 +26,14 @@ class Renderer
     $html     = $this->renderTemplate($template, $vars);
     $html     = trim($html);
     return $html . PHP_EOL;
+  }
+
+  public function setType($type) {
+    $this->type = $type;
+  }
+
+  public function setTemplatesPath($templates_path) {
+    $this->templates_path = $templates_path;
   }
 
   private function renderTemplate($template, $vars = []) {
@@ -31,7 +47,7 @@ class Renderer
   }
 
   private function findTemplate($template, $type) {
-    $path  = $this->base_dir;
+    $path  = $this->templates_path;
     $path .= '/' . trim($template, '/');
     $path .= '.' . $type . '.php';
 
