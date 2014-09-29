@@ -66,4 +66,28 @@ class CollectionTest extends PHPUnit_Framework_TestCase
   public function testGetANonExistingItem() {
     $this->c[159];
   }
+
+  public function testWithDataAsAssocArrays() {
+    $c = new Collection([
+      [
+        'key' => 5,
+        'title' => 'title for 5'
+      ],
+      [
+        'key' => 1,
+        'title' => 'title for 1'
+      ]
+    ], 'key');
+
+    $this->assertSame($c[5]['title'], 'title for 5');
+  }
+
+  public function testWithDataAsObjectsWithAMethodAsIdentifier() {
+    $c = new Collection([
+      new CollectionData(5, 'title 5'),
+      new CollectionData(2, 'title 2')
+    ], 'id');
+
+    $this->assertSame($c[5]->title(), 'title 5');
+  }
 }

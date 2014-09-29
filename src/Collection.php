@@ -75,6 +75,12 @@ class Collection implements \ArrayAccess, \IteratorAggregate
   //
   private function posFor($item_identifier, $key) {
     foreach($this->items as $pos => $item) {
+      if(is_array($item) AND isset($item[$key]) AND $item[$key] == $item_identifier) {
+        return $pos;
+      }
+      if(method_exists($item, $key) AND $item->{$key}() == $item_identifier) {
+        return $pos;
+      }
       if($item->{$key} == $item_identifier) {
         return $pos;
         break;
