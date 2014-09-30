@@ -7,7 +7,7 @@ This is a package with common classes to use in a PHP environment.
 Install with [Composer](http://getcomposer.org) by adding this to your `composer.json` file.
 
     "require": {
-      "gobrave/util" : "v1.2.1"
+      "gobrave/util" : "~1.0"
     },
     "repositories" : [
       {
