@@ -23,9 +23,9 @@ class Renderer
   public function render($template, $vars = [], $type = null) {
     $type     = $type ?: $this->type;
     $template = $this->findTemplate($template, $type);
-    $html     = $this->renderTemplate($template, $vars);
-    $html     = trim($html);
-    return $html . PHP_EOL;
+    $output   = $this->renderTemplate($template, $vars);
+    $output   = trim($output);
+    return PHP_EOL . $output . PHP_EOL;
   }
 
   public function setType($type) {
@@ -41,9 +41,9 @@ class Renderer
     ob_clean();
     extract($vars);
     include($template);
-    $html = ob_get_contents();
+    $output = ob_get_contents();
     ob_end_clean();
-    return $html;
+    return $output;
   }
 
   private function findTemplate($template, $type) {
