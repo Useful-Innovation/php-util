@@ -1,5 +1,6 @@
 <?php
 
+class SingletonChild extends \GoBrave\Util\Singleton { }
 class CollectionData
 {
   private $id;
