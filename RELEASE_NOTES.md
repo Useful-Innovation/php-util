@@ -1,3 +1,8 @@
+1.3
+===
+#### Singleton
+A class that forces the user to only have one instance. It is abstract and to be extended.
+
 1.2.3
 ===
 README updates. 

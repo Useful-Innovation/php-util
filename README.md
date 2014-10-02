@@ -63,3 +63,18 @@ A class that renders templates with local variables.
     $html     = $renderer->render('product_template', ['product' => Product::find(5) ]);
 
     $html == '<h1>' . Product::find(5)->title . '</h1>' . PHP_EOL; // true
+
+### Singleton
+
+A class that forces the user to only have one instance.
+
+    new \GoBrave\Util\Singleton(); // Fatal error
+
+    class Example extends \GoBrave\Util\Singleton {}
+
+    new Example(); // Fatal error
+    $c1 = Example::get();
+    $c1 instanceof \GoBrave\Util\Singleton; // true
+    $c2 = Example::get();
+    $c1 === $c2; // true
+
