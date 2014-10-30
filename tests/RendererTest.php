@@ -55,6 +55,20 @@ class RendererTest extends PHPUnit_Framework_Testcase
     $this->assertSame($html, PHP_EOL . '<h1>Template in sub dir</h1>' . PHP_EOL);
   }
 
+  public function testSupportForMultipleTemplatePaths() {
+    R::config([
+      'templates_path' => [
+        __DIR__ . '/data/sub',
+        __DIR__ . '/data'
+      ], 
+      'type' => 'html'
+    ]);
+
+    $r = new R();
+    $html = $r->render('template');
+    $this->assertSame($html, PHP_EOL . '<h1>Template in sub</h1>' . PHP_EOL);
+  }
+
   /**
    * @expectedException \GoBrave\Util\RendererException
    */

@@ -7,17 +7,23 @@ class Renderer
   private static $s_templates_path;
   private static $s_type = 'html';
 
-  private $templates_path;
+  private $templates_paths;
   private $type;
 
   public static function config($config) {
-    self::$s_templates_path = isset($config['templates_path']) ? $config['templates_path'] : null;
-    self::$s_type           = isset($config['type']) ? $config['type'] : null;
+    if(isset($config['templates_path'])) {
+      if(is_array($config['templates_path'])) {
+        self::$s_templates_path = $config['templates_path'];
+      } else {
+        self::$s_templates_path = [$config['templates_path']];
+      }
+    }
+    self::$s_type = isset($config['type']) ? $config['type'] : null;
   }
 
-  public function __construct($templates_path = null, $type = null) {
-    $this->templates_path = $templates_path ?: self::$s_templates_path;
-    $this->type           = $type           ?: self::$s_type;
+  public function __construct($templates_paths = null, $type = null) {
+    $this->setTemplatesPath($templates_paths ?: self::$s_templates_path);
+    $this->setType($type ?: self::$s_type);
   }
 
   public function render($template, $vars = [], $type = null) {
@@ -32,8 +38,12 @@ class Renderer
     $this->type = $type;
   }
 
-  public function setTemplatesPath($templates_path) {
-    $this->templates_path = $templates_path;
+  public function setTemplatesPath($templates_paths) {
+    if(is_array($templates_paths)) {
+      $this->templates_paths = $templates_paths;
+    } else {
+      $this->templates_paths = [$templates_paths];
+    }
   }
 
   private function renderTemplate($template, $vars = []) {
@@ -47,14 +57,20 @@ class Renderer
   }
 
   private function findTemplate($template, $type) {
-    $path  = $this->templates_path;
-    $path .= '/' . trim($template, '/');
-    $path .= '.' . $type . '.php';
+    $template_path = false;
+    foreach($this->templates_paths as $path) {
+      $path .= '/' . trim($template, '/');
+      $path .= '.' . $type . '.php';
+      if(file_exists($path)) {
+        $template_path = $path;
+        break;
+      }
+    }
 
-    if(!file_exists($path)) {
+    if($template_path === false) {
       throw new RendererException("Template '" . implode('.', [$template, $type, 'php']) . "' is missing");
     }
 
-    return $path;
+    return $template_path;
   }
 }
