@@ -31,7 +31,7 @@ class Renderer
     $template = $this->findTemplate($template, $type);
     $output   = $this->renderTemplate($template, $vars);
     $output   = trim($output);
-    return PHP_EOL . $output . PHP_EOL;
+    return $output . PHP_EOL;
   }
 
   public function setType($type) {
