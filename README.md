@@ -7,7 +7,7 @@ This is a package with common classes to use in a PHP environment.
 Install with [Composer](http://getcomposer.org) by adding this to your `composer.json` file.
 
     "require": {
-      "gobrave/util" : "~1.0"
+      "gobrave/util" : "~1.4.1"
     },
     "repositories" : [
       {
@@ -77,4 +77,21 @@ A class that forces the user to only have one instance.
     $c1 instanceof \GoBrave\Util\Singleton; // true
     $c2 = Example::get();
     $c1 === $c2; // true
+
+### Printer
+
+A class to print messages to the console in pretty colors
+
+    $echo_mode = true; // Default true. Will echo instead of return
+    $printer = new GoBrave\Util\Printer($echo_mode);
+    $printer->info('some info');        // Will be printer in cyan
+    $printer->success('some succes');   // Will be printed in green
+    $printer->warning('some warning');  // Will be printed in yellow
+    $printer->error('some error');      // Will be printed in red
+    $printer->plain('some text');       // Will be printed regularly
+
+The second parameter of all the above methods (`info`, `success`, `warning`, `error`, `plain`) got a second parameter for adding a new line to the message. It defaults to true.
+
+    // Turn of auto echo
+    $printer->setEchoMode(false);
 
