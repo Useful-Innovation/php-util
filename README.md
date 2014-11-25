@@ -7,7 +7,7 @@ This is a package with common classes to use in a PHP environment.
 Install with [Composer](http://getcomposer.org) by adding this to your `composer.json` file.
 
     "require": {
-      "gobrave/util" : "~1.4.1"
+      "gobrave/util" : "~1.5"
     },
     "repositories" : [
       {
@@ -95,3 +95,28 @@ The second parameter of all the above methods (`info`, `success`, `warning`, `er
     // Turn of auto echo
     $printer->setEchoMode(false);
 
+### CaseConverter
+
+A class that converts `camelCase` to `snake_case` and reverse. 
+
+    $converter = new GoBrave\Util\CaseConverter();
+    $converter->snakeToCamel('something_in_snake');         // somethingInSnake
+    $converter->snakeToCamel('something_in_snake', true);   // SomethingInSnake
+    $converter->camelToSnake('SomethingInCamel');           // something_in_camel
+    $converter->camelToSnake('somethingInCamel');           // something_in_camel
+    
+### SingPlur
+
+A class that converts singular words to plural words. 
+
+    $singplur = new GoBrave\Util\SingPlur();
+
+    GoBrave\Util\SingPlur::$plural_to_singular['something-specialz'] = 'something-special';
+    GoBrave\Util\SingPlur::$singular_to_plural['something-special']  = 'something-specialz';
+
+    $singplur->singularize('products');             // product
+    $singplur->singularize('categories');           // category
+    $singplur->singularize('something-specialz');   // something-special
+    $singplur->pluralize('product');                // products
+    $singplur->pluralize('category');               // categories
+    $singplur->pluralize('something-special');      // something-specialz
