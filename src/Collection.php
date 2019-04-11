@@ -82,6 +82,15 @@ class Collection implements \ArrayAccess, \IteratorAggregate
         return count($this->items);
     }
 
+    public function map(callable $callback)
+    {
+        $keys = array_keys($this->items);
+
+        $items = array_map($callback, $this->items, $keys);
+
+        return new static(array_combine($keys, $items));
+    }
+
     //
     //  Helpers
     //
